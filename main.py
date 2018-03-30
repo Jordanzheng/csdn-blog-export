@@ -72,13 +72,15 @@ class Exporter(Analyzer):
 
     # export as markdown
     def export2markdown(self, f, detail):
-        f.write(html2text.html2text(self.getTitle(detail).prettify()))
+        # don't need title
+        #f.write(html2text.html2text(self.getTitle(detail).prettify()))
         f.write(html2text.html2text(self.getArticleContent(detail).prettify()))
 
     # export as html
     def export2html(self, f, detail):
-        f.write(self.getTitle(detail).prettify())
-        f.write(self.getArticleContent(detail).prettify())
+        #don't need title
+        #f.write(self.getTitle(detail).prettify())
+        f.write(detail.prettify())
 
     # export
     def export(self, link, filename, form):
@@ -113,7 +115,9 @@ class Parser(Analyzer):
         res = self.getContent(soup).find(class_='list_item_new').find(id='article_list').find_all(class_='article_item')
         i = 0
         for ele in res:
-            self.article_list.append('http://blog.csdn.net/' + ele.find(class_='article_title').h1.span.a['href'])
+            #self.article_list.append('http://blog.csdn.net/' + ele.find(class_='article_title').h1.span.a['href'])
+            self.article_list.append(ele.find(class_='article_title').h1.span.a['href'])
+
 
     # get the page of the blog
     # may have a bug, because of the encoding
@@ -122,20 +126,16 @@ class Parser(Analyzer):
         self.page = 1
         # papelist if a typo written by csdn front-end programmers?
         pageList = self.getContent(soup).find(id='papelist')
+        #print pageList
         # if there is only a little posts in one blog, the papelist element doesn't even exist
         if pageList == None:
         	print "Page is 1"
         	return 1
-        res = pageList.span
-        # get the page from text
-        buf = str(res).split(' ')[3]
-        strpage = ''
-        for i in buf:
-            if i >= '0' and i <= '9':
-                strpage += i
-        # cast str to int
-        self.page =  int(strpage)
+        pageitem = soup.find_all('li', class_="page-item")
+        pagenum = len(pageitem)-1
+        self.page =  pagenum
         return self.page
+
 
     # get all the link
     def getAllArticleLink(self, url):
@@ -149,10 +149,11 @@ class Parser(Analyzer):
     # export the article
     def export(self, form):
         PrintLayer.printArticleCount(len(self.article_list))
+        print self.article_list
         for link in self.article_list:
             PrintLayer.printWorkingArticle(link)
             exporter = Exporter()
-            exporter.run(link, link.split('/')[7], form)
+            exporter.run(link, link.split('/')[6], form)
 
     # the page given
     def run(self, url, page=-1, form='markdown'):
