@@ -18,7 +18,7 @@
 
 ### 使用方法
 
-1、从csdn导出博客	（注意：博客主题需切回“碧海蓝”，我的“极客世界”主题失效）  
+1、从csdn导出博客	（注意：博客主题需切回旧的主题“编程工作室”，我的“大白”主题失效）  
 
     main.py -u <username> [-f <format>] [-p <page>] [-o <outputDirectory>]
 		<format>： html | markdown，缺省为markdown
