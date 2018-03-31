@@ -50,15 +50,7 @@ for postName in mdPosts:
 #        pos = temp.index(" - ")
  #       newFileName = temp[:pos]
         print newcategory
-        #弃用！
-        #.md文件中第一行大致长这样：#  [ Objective-C常用宏定义 ](/ichenwin/article/details/52813659)
-        #方括号中就是博文名，下面这段代码负责从.md文件第一行获取文章名
-        # mdFile = codecs.open(mdPath + postName, "r", 'utf-8')
-        # contents = mdFile.readlines()
-        # firstLine = contents.pop(0)
-        # print "firstline:" + firstLine
-        # newFileName = re.compile('\[([^]]+)\]').findall(firstLine)[0]
-        # mdFile.close()
+ 
         #将.md中博文读入contents，往contents插入Hexo头部
         #然后写回.md文件
         mdFile = codecs.open(mdPath + postName, "r", 'utf-8')
